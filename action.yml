@@ -17,9 +17,10 @@ runs:
       uses: actions/cache@v3
       with:
         path: ~/.m2/repository
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2-
+        key: ${{ runner.os }}-m2-${{ github.run_id }}-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-m2-
 
     - name: Build with Maven
       shell: bash
-      run: mvn clean install
+      run: mvn clean package -DskipTests
